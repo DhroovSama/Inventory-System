@@ -17,4 +17,4 @@ MonoBehaviour:
   icon: {fileID: 0}
   itemType: 2
   isStackable: 1
-  maxStackSize: 0
+  maxStackSize: 5

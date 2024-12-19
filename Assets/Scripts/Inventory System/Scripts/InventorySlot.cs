@@ -8,30 +8,54 @@ namespace Inventory.sys
         [Tooltip("The type of item stored here")]
         public ItemData itemData;
         [Tooltip("How many of that item we have")]
-        public int quantity;       
+        public int quantity;
 
+        #region XML Documentation
+        /// <summary>
+        /// Constructor for initializing the slot with a specific item and quantity.
+        /// </summary>
+        /// <param name="id">The ItemData reference for the item.</param>
+        /// <param name="q">The quantity of the item.</param> 
+        #endregion
         public InventorySlot(ItemData id, int q)
         {
-            itemData = id;         // Set the initial item type
-            quantity = q;          // Set how many of them we start with
+            itemData = id;        
+            quantity = q;          
         }
 
+        #region XML Documentation
+        /// <summary>
+        /// Determines if the slot is considered empty.
+        /// A slot is empty if there is no itemData or if quantity is 0 or less.
+        /// </summary>
+        /// <returns>True if empty, false otherwise.</returns> 
+        #endregion
         public bool IsEmpty()
         {
-            // If we don't have an item or no quantity, this slot is empty
             return itemData == null || quantity <= 0;
         }
 
+        #region XML Documentation
+        /// <summary>
+        /// Clears the slot by removing the item reference and resetting quantity to zero.
+        /// </summary> 
+        #endregion
         public void ClearSlot()
         {
-            // Remove any item from this slot
             itemData = null;
             quantity = 0;
         }
 
+        #region XML Documentation
+        /// <summary>
+        /// Sets a new item and quantity for this slot.
+        /// Useful when changing items or updating their count.
+        /// </summary>
+        /// <param name="newItemData">The new ItemData to place in the slot.</param>
+        /// <param name="newQuantity">The new quantity of the item.</param> 
+        #endregion
         public void SetItem(ItemData newItemData, int newQuantity)
         {
-            // Update this slot with a new item and amount
             itemData = newItemData;
             quantity = newQuantity;
         }

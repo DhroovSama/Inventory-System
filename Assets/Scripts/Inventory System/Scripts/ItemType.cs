@@ -1,10 +1,19 @@
+using UnityEngine;
+
 namespace Inventory.sys
 {
     public enum ItemType
     {
-        Weapon,      // Things you can fight with
-        Consummable, // To be Consumed
-        Coin,        // Currency items
-        PowerUp      // Temporary boosts or buffs
+        [Tooltip("Things you can fight with")]
+        Weapon,
+
+        [Tooltip("To be Consumed")]
+        Consummable,
+
+        [Tooltip("Currency items")]
+        Coin,
+
+        [Tooltip("Temporary boosts or buffs")]
+        PowerUp      
     }
 }
