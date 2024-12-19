@@ -70,6 +70,34 @@ namespace Inventory.sys
             return remainingItems;
         }
 
+        #region XML Documentation
+        /// <summary>
+        /// Removes a specified quantity of an item from the inventory.
+        /// </summary>
+        /// <param name="itemData">The ItemData representing the type of item to remove.</param>
+        /// <param name="quantity">The quantity of the item to remove.</param>
+        /// <remarks>
+        /// If the quantity in the inventory slot is greater than or equal to the requested quantity, the requested amount is subtracted.
+        /// If the quantity in the slot reaches zero or below, the slot is cleared and removed from the inventory.
+        /// </remarks>
+        #endregion
+        public void RemoveItem(ItemData itemData, int quantity)
+        {
+            InventorySlot slot = slots.Find(s => s.itemData == itemData);
+            if (slot != null)
+            {
+                if (slot.quantity >= quantity)
+                {
+                    slot.quantity -= quantity;
+
+                    if (slot.quantity <= 0)
+                    {
+                        slot.ClearSlot();
+                        slots.Remove(slot);
+                    }
+                }
+            }
+        }
 
 
         #region XML Documentation

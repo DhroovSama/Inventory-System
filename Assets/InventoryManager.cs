@@ -20,5 +20,10 @@ public class InventoryManager : MonoBehaviour
         {
             inventorySystem.AddItem(item1, 1);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            inventorySystem.RemoveItem(item, 1);
+        }
     }
 }
