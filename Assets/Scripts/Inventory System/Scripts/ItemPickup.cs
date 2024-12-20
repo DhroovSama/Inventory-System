@@ -44,6 +44,11 @@ namespace Inventory.sys
 
         private void OnCollisionEnter(Collision collision)
         {
+            ItemPickup other = collision.gameObject.GetComponent<ItemPickup>();
+
+            // Prevent interaction if the colliding object is the same item type.
+            if (other != null) return;
+
             gameObject.GetComponent<Collider>().isTrigger = true;
             gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }

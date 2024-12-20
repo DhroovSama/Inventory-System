@@ -83,8 +83,25 @@ namespace Inventory.sys
             // If any items were dropped, instantiate the item's prefab in the game world.
             if (numberDropped > 0)
             {
-                Instantiate(itemData.prefab, GetDropPosition(), Quaternion.identity);
+                if (itemData.groupedPrefab)
+                {
+                    // Instantiate a single prefab with the total quantity for grouped items.
+                    Instantiate(itemData.prefab, GetDropPosition(), Quaternion.identity)
+                        .GetComponent<ItemPickup>().quantity = numberDropped;
+                }
+                else
+                {
+                    // Drop items individually if they are not grouped
+                    Vector3 location = GetDropPosition();
+
+                    for (int i = 0; i < numberDropped; i++)
+                    {
+                        // Instantiate each item 
+                        Instantiate(itemData.prefab, GetDropPosition(), Quaternion.identity);
+                    }
+                }
             }
+
         }
 
         #region XML Documentation

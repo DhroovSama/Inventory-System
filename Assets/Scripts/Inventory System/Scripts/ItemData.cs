@@ -23,6 +23,9 @@ namespace Inventory.sys
         [Tooltip("If stackable, how many can we stack?")]
         public int maxStackSize;
 
+        [Tooltip("If true then will allow group of items to be dropped with just one prefab")]
+        public bool groupedPrefab;
+
         [Tooltip("Gameobject associated with that item")]
         public GameObject prefab;
     }
