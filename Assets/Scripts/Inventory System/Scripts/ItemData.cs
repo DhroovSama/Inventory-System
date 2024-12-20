@@ -21,6 +21,9 @@ namespace Inventory.sys
         public bool isStackable;
 
         [Tooltip("If stackable, how many can we stack?")]
-        public int maxStackSize;   
+        public int maxStackSize;
+
+        [Tooltip("Gameobject associated with that item")]
+        public GameObject prefab;
     }
 }

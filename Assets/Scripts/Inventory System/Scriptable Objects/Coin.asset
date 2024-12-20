@@ -18,3 +18,4 @@ MonoBehaviour:
   itemType: 2
   isStackable: 1
   maxStackSize: 5
+  prefab: {fileID: 1591165099382186, guid: 160a6121b4d25254da31bdab63ad82b7, type: 3}
