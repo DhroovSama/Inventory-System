@@ -57,7 +57,52 @@ namespace Inventory.sys
                     Debug.Log("Couldn't Find obj with name [Preview_]");
                 }
             }
+        }
 
+        #region XML Documentation
+        /// <summary>
+        /// Sets the visibility of the inventory panel.
+        /// Adjusts the panel's alpha, interactable, and raycast-blocking properties.
+        /// </summary>
+        /// <param name="isVisible">If true, the panel is made visible; otherwise, it is hidden.</param>
+        #endregion
+        public void SetPanelVisibility(bool isVisible)
+        {
+            CanvasGroup canvas = GetComponent<CanvasGroup>();
+            canvas.alpha = isVisible ? 1 : 0;
+            canvas.interactable = isVisible;
+            canvas.blocksRaycasts = isVisible;
+        }
+
+        #region XML Documentation
+        /// <summary>
+        /// Toggles the visibility of the inventory panel.
+        /// If the panel is visible, it becomes hidden, and vice versa.
+        /// Updates cursor lock state and visibility accordingly.
+        /// </summary>
+        #endregion
+        public void TogglePanelVisibility()
+        {
+            CanvasGroup canvasGroup = this.gameObject.GetComponent<CanvasGroup>();
+
+            if(canvasGroup.alpha == 1)
+            {
+                canvasGroup.alpha = 0;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                canvasGroup.alpha = 1;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
 
 

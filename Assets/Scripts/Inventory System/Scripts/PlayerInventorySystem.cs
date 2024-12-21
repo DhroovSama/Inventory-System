@@ -34,7 +34,7 @@ namespace Inventory.sys
 
         private void Start()
         {
-            InventoryPanelManager.Instance.gameObject.SetActive(false);
+            InventoryPanelManager.Instance.SetPanelVisibility(false);   
         }
 
         private void Update()
@@ -58,18 +58,18 @@ namespace Inventory.sys
         #endregion
         public void OpenCloseInventory()
         {
-            InventoryPanelManager.Instance.gameObject.SetActive(!InventoryPanelManager.Instance.gameObject.activeSelf);
+            InventoryPanelManager.Instance.TogglePanelVisibility();
 
-            if (InventoryPanelManager.Instance.gameObject.activeSelf)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
+            //if (InventoryPanelManager.Instance.gameObject.activeSelf)
+            //{
+            //    Cursor.lockState = CursorLockMode.None;
+            //    Cursor.visible = true;
+            //}
+            //else
+            //{
+            //    Cursor.lockState = CursorLockMode.Locked;
+            //    Cursor.visible = false;
+            //}
         }
 
         #region XML Documentation
