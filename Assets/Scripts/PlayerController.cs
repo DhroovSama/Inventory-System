@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
         jumpControl.action.Enable();
     }
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     private void Start()
     {

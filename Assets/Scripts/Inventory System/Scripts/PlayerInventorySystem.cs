@@ -20,12 +20,21 @@ namespace Inventory.sys
         [Tooltip("Input action for dropping items.")]
         public InputActionReference dropAction;
 
+        [Tooltip("Input action for Opening and Closing the Inventory.")]
+        public InputActionReference inventoryOpenAction;
+
         [Tooltip("The item the player intends to drop.")]
         public ItemData itemToDrop;
 
         private void OnEnable()
         {
             dropAction.action.Enable();
+            inventoryOpenAction.action.Enable();
+        }
+
+        private void Start()
+        {
+            InventoryPanelManager.Instance.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -34,6 +43,32 @@ namespace Inventory.sys
             if (dropAction.action.triggered)
             {
                 DropItem(itemToDrop, 1);
+            }
+
+            if (inventoryOpenAction.action.triggered)
+            {
+                OpenCloseInventory();
+            }
+        }
+
+        #region XML Documentation
+        /// <summary>
+        /// Opens or closes the inventory panel based on its current state.
+        /// </summary>
+        #endregion
+        public void OpenCloseInventory()
+        {
+            InventoryPanelManager.Instance.gameObject.SetActive(!InventoryPanelManager.Instance.gameObject.activeSelf);
+
+            if (InventoryPanelManager.Instance.gameObject.activeSelf)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
 
@@ -125,6 +160,7 @@ namespace Inventory.sys
         private void OnDisable()
         {
             dropAction.action.Disable();
+            inventoryOpenAction.action.Disable(); 
         }
     }
 }

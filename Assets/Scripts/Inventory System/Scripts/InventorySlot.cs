@@ -10,6 +10,8 @@ namespace Inventory.sys
         [Tooltip("How many of that item we have")]
         public int quantity;
 
+        private ItemButtonSettings itemButton;
+
         #region XML Documentation
         /// <summary>
         /// Constructor for initializing the slot with a specific item and quantity.
@@ -21,6 +23,7 @@ namespace Inventory.sys
         {
             itemData = id;        
             quantity = q;          
+            itemButton = InventoryPanelManager.Instance.CreateInventoryButton(itemData);
         }
 
         #region XML Documentation
