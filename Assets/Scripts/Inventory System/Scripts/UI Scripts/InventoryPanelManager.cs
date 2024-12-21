@@ -27,6 +27,8 @@ namespace Inventory.sys
         // Maps item IDs to their preview GameObjects.
         public Dictionary<int, GameObject> previewItemObjects;
 
+        private ItemType activeItemTypeTab;
+
 
         //Singleton Pattern
         public static InventoryPanelManager Instance { get; private set; }
@@ -35,7 +37,7 @@ namespace Inventory.sys
         {
             if (Instance != null && Instance != this)
             {
-                Destroy(gameObject); // Ensures only one instance exists.
+                Destroy(gameObject); 
             }
             else
             {
@@ -138,6 +140,13 @@ namespace Inventory.sys
             itemButtonSettings.Init(itemData, 1); // Initialize the button with item data.
             inventoryItemMap.Add(itemButton, itemData.itemType); // Map the button to its item type.
             itemButton.GetComponent<Button>().onClick.AddListener(() => ShowItem(itemData.itemID)); // Add a click listener to show the item preview.
+
+            if((itemData.itemType != activeItemTypeTab))
+            {
+                // Show or hide item buttons based on the filter.
+                itemButton.gameObject.SetActive(false);
+            }
+
             return itemButtonSettings;
         }
 
@@ -149,13 +158,12 @@ namespace Inventory.sys
         #endregion
         public void FilterItemsByType(ItemType type)
         {
+            activeItemTypeTab = type;
+
             foreach (var kvp in inventoryItemMap)
             {
                 GameObject itemButton = kvp.Key;
                 ItemType itemType = kvp.Value;
-
-                // Show or hide item buttons based on the filter.
-                itemButton.gameObject.SetActive(itemType == type);
             }
         }
 
