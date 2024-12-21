@@ -29,6 +29,12 @@ namespace Inventory.sys
                         HandleToggleChange(toggle); // Handle the toggle change event
                     }
                 });
+
+                if(toggle.isOn)
+                {
+                    // Sorts the Generated Item Buttons at the Start according to whic  Toggle is On at starting 
+                    InventoryPanelManager.Instance.FilterItemsByType(toggle.GetComponent<ToggleItemType>().itemType);
+                }
             }
         }
 
@@ -43,12 +49,11 @@ namespace Inventory.sys
             // Only proceed if the newly selected toggle is different from the last one.
             if (selectedToggle != lastSelectedToggle)
             {
-                lastSelectedToggle = selectedToggle; // Update the last selected toggle.
+                lastSelectedToggle = selectedToggle; 
 
-                // Retrieve the itemType associated with the selected toggle.
                 ItemType selectedType = selectedToggle.GetComponent<ToggleItemType>().itemType;
 
-                Debug.Log("Toggle Selected: " + selectedType);
+                InventoryPanelManager.Instance.FilterItemsByType(selectedType);
             }
         }
     }

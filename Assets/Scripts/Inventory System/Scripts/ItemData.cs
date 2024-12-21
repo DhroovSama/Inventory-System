@@ -2,6 +2,11 @@ using UnityEngine;
 
 namespace Inventory.sys
 {
+    #region XML Documentation
+    /// <summary>
+    /// Scriptable Object Script for an inventory item, represents their properties.
+    /// </summary>
+    #endregion
     [CreateAssetMenu(fileName = "ItemData", menuName = "Inventory/ItemData")]
     public class ItemData : ScriptableObject
     {

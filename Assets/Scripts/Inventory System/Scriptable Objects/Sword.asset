@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Sword
   itemID: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4e32f1782a226b74ba5d564f6c243c29, type: 3}
   itemType: 0
   isStackable: 0
   maxStackSize: 0
+  groupedPrefab: 0
   prefab: {fileID: 7804676767382043865, guid: 5e687ca2ba570994fa5a4e84a7aa54f1, type: 3}
