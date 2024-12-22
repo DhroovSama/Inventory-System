@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Inventory.sys
 {
@@ -14,6 +15,9 @@ namespace Inventory.sys
         public int maxSlots = 20;
 
         public PlayerInventorySystem playerInventorySystem;
+
+        // Declare the event
+        public event Action onInventoryChanged;
 
         #region XML Documentation
         /// <summary>
@@ -67,6 +71,12 @@ namespace Inventory.sys
                 int itemsToAdd = Mathf.Min(remainingItems, stackSize);
                 slots.Add(new InventorySlot(itemData, itemsToAdd));
                 remainingItems -= itemsToAdd;
+            }
+
+            // Trigger the event when inventory is modified
+            if (onInventoryChanged != null)
+            {
+                onInventoryChanged();
             }
 
             // Return items that couldn't fit.
@@ -147,6 +157,12 @@ namespace Inventory.sys
                 }
             }
 
+            // Trigger the event when inventory is modified
+            if (onInventoryChanged != null)
+            {
+                onInventoryChanged();  
+            }
+
             // Return the number of items that couldn't be removed (if any).
             return remainingItems;
         }
@@ -169,7 +185,9 @@ namespace Inventory.sys
         #endregion
         public int RemoveItemFromSLot(InventorySlot slot, int quantity)
         {
-            if(slot.Quantity >= quantity)
+            
+
+            if (slot.Quantity >= quantity)
             {
                 slot.Quantity -= quantity;
 
@@ -180,9 +198,10 @@ namespace Inventory.sys
                     slot.ClearSlot();
                     slots.Remove(slot);
                 }
-                
-                return 0;
 
+                onInventoryChanged?.Invoke();
+
+                return 0;
             }
             else
             {
@@ -192,6 +211,8 @@ namespace Inventory.sys
 
                 slot.ClearSlot();
                 slots.Remove(slot);
+
+                onInventoryChanged?.Invoke();
 
                 return remainingQuantity;
             }
@@ -219,9 +240,23 @@ namespace Inventory.sys
                         Instantiate(itemData.prefab, playerInventorySystem.GetDropPosition(), Quaternion.identity);
                     }
                 }
-            }
 
+                
+            }
         }
+
+        public bool HasItem(ItemData itemData)
+        {
+            foreach (var slot in slots)
+            {
+                if (slot.itemData == itemData)
+                {
+                    return true;  // If the item is found in any slot, return true
+                }
+            }
+            return false;  // If the item is not found in any slot, return false
+        }
+
 
         #region XML Documentation
         /// <summary>

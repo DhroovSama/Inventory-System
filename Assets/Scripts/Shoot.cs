@@ -6,36 +6,50 @@ using UnityEngine;
 public class Shoot : MonoBehaviour
 {
     [SerializeField, Tooltip("The bullet prefab to instantiate")]
-    private GameObject bulletPrefab;   
+    private GameObject bulletPrefab;  
+
     [SerializeField, Tooltip("The point from where the bullet will be shot")]
-    private Transform shootPoint;      
+    private Transform shootPoint;     
+
     [SerializeField, Tooltip("The force applied to the bullet")]
-    private float bulletForce;         
+    private float bulletForce;      
 
     [SerializeField]
-    private ItemData bulletItemDataSO;
-    
+    private ItemData bulletItemDataSO, gunItemDataSO;  
+
     [Header("Inventory Reference")]
-    [SerializeField] private InventorySystem inventorySystem;
+    [SerializeField] private InventorySystem inventorySystem; 
 
     public void ShootBullet()
     {
-        int bulletsToRemove = 1;
-
-        int remainingBullets = inventorySystem.RemoveItem(bulletItemDataSO, bulletsToRemove);
-
-        if (remainingBullets == 0)
+        // Check if player has both bullets and the gun in inventory
+        if (inventorySystem.HasItem(bulletItemDataSO) && inventorySystem.HasItem(gunItemDataSO))
         {
-            InstantiateBullet(); 
+            // Remove one bullet from inventory
+            int bulletsToRemove = 1;
+
+            int remainingBullets = inventorySystem.RemoveItem(bulletItemDataSO, bulletsToRemove);
+
+            // If there are no remaining bullets, instantiate and shoot the bullet
+            if (remainingBullets == 0)
+            {
+                InstantiateBullet();
+            }
+            else
+            {
+                Debug.Log("Not enough Bullets");
+            }
         }
         else
         {
-            Debug.Log("Not enough bullets!");
+            Debug.Log("Not enough Bullets");
+            return;
         }
     }
 
     private void InstantiateBullet()
     {
+        // Instantiate the bullet prefab at the shoot point with the correct rotation
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
 
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
@@ -52,6 +66,7 @@ public class Shoot : MonoBehaviour
 
     public void TakeBulletFromPlayerInventory()
     {
+        // Remove one bullet from inventory, if available
         if (inventorySystem != null)
         {
             inventorySystem.RemoveItem(bulletItemDataSO, 1, true);
