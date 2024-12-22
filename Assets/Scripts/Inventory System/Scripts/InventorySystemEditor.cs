@@ -5,6 +5,7 @@ using UnityEditor;
 using Inventory.sys;
 using System.Runtime.CompilerServices;
 
+#if UNITY_EDITOR
 namespace Inventory.sys
 {
     #region XML Documentation
@@ -112,3 +113,4 @@ namespace Inventory.sys
         }
     }
 }
+#endif // End of UNITY_EDITOR directive
