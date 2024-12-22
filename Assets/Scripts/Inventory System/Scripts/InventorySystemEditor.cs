@@ -92,7 +92,7 @@ namespace Inventory.sys
             EditorGUILayout.LabelField(itemName, GUILayout.Width(200));
 
             // Display the item quantity or 0 if no item is present.
-            int quantity = slot.itemData != null ? slot.quantity : 0;
+            int quantity = slot.itemData != null ? slot.Quantity : 0;
             EditorGUILayout.LabelField(quantity.ToString(), GUILayout.Width(200));
 
             GUILayout.EndHorizontal();

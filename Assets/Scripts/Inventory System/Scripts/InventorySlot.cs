@@ -8,9 +8,32 @@ namespace Inventory.sys
         [Tooltip("The type of item stored here")]
         public ItemData itemData;
         [Tooltip("How many of that item we have")]
-        public int quantity;
+        private int quantity;
 
         private ItemButtonSettings itemButton;
+
+        #region XML Documentation
+        /// <summary>
+        /// Gets or sets the quantity of the item in the inventory slot.
+        /// Ensures that the quantity is never less than zero. 
+        /// Updates the associated item button's quantity display if it exists.
+        /// </summary> 
+        #endregion
+        public int Quantity
+        {
+            get => quantity;
+            set
+            {
+                // Ensures quantity is non-negative
+                quantity = value < 0 ? 0 : value;
+
+                // Updates the item's button UI to reflect the new quantity, if the button exists.
+                if (itemButton != null)
+                {
+                    itemButton.UpdateQuantityDisplay(quantity);
+                }
+            }
+        }
 
         #region XML Documentation
         /// <summary>
@@ -21,9 +44,9 @@ namespace Inventory.sys
         #endregion
         public InventorySlot(ItemData id, int q)
         {
-            itemData = id;        
-            quantity = q;          
+            itemData = id;
             itemButton = InventoryPanelManager.Instance.CreateInventoryButton(itemData);
+            Quantity = q;          
         }
 
         #region XML Documentation
@@ -46,7 +69,12 @@ namespace Inventory.sys
         public void ClearSlot()
         {
             itemData = null;
-            quantity = 0;
+            Quantity = 0;
+
+            if(itemButton != null)
+            {
+                Object.Destroy(itemButton.gameObject);
+            }
         }
 
         #region XML Documentation
@@ -60,7 +88,7 @@ namespace Inventory.sys
         public void SetItem(ItemData newItemData, int newQuantity)
         {
             itemData = newItemData;
-            quantity = newQuantity;
+            Quantity = newQuantity;
         }
     }
 }

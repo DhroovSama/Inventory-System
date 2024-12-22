@@ -37,5 +37,18 @@ namespace Inventory.sys
 
             itemType = itemData.itemType;
         }
+
+        #region XML Documentation
+        /// <summary>
+        /// Updates the quantity display text on the item's UI button.
+        /// Ensures that the quantity is accurately represented in the UI.
+        /// </summary>
+        /// <param name="quantity">The current quantity to display.</param> 
+        #endregion
+        public void UpdateQuantityDisplay(int quantity)
+        {
+            numberInSlot.text = quantity.ToString();
+        }
+
     }
 }

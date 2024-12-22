@@ -40,13 +40,13 @@ namespace Inventory.sys
                     if (slot.itemData == itemData)
                     {
                         // Space left in the current stack.
-                        int spaceInStack = itemData.maxStackSize - slot.quantity;
+                        int spaceInStack = itemData.maxStackSize - slot.Quantity;
 
                         if (spaceInStack > 0)
                         {
                             // Add as many items as possible to this stack.
                             int itemsToAdd = Mathf.Min(remainingItems, spaceInStack);
-                            slot.quantity += itemsToAdd;
+                            slot.Quantity += itemsToAdd;
                             remainingItems -= itemsToAdd;
 
                             // If all items are placed, return.
@@ -109,7 +109,7 @@ namespace Inventory.sys
             int totalAvailableItems = 0;
             foreach (InventorySlot slot in slotsWithItem)
             {
-                totalAvailableItems += slot.quantity;
+                totalAvailableItems += slot.Quantity;
             }
 
             // If there aren't enough items to remove and partial removal isn't allowed, abort and return the requested quantity.
@@ -126,10 +126,10 @@ namespace Inventory.sys
                     break;
 
                 // Check if the current slot has fewer items than the remaining quantity to remove.
-                if (slot.quantity < remainingItems)
+                if (slot.Quantity < remainingItems)
                 {
                     // Subtract the slot's quantity from the remaining items.
-                    remainingItems -= slot.quantity;
+                    remainingItems -= slot.Quantity;
 
                     // Clear the slot and remove it from the inventory list.
                     slot.ClearSlot();
@@ -138,7 +138,7 @@ namespace Inventory.sys
                 else
                 {
                     // If the slot contains enough items, deduct the remaining quantity from the slot.
-                    slot.quantity -= remainingItems;
+                    slot.Quantity -= remainingItems;
 
                     // All items are removed successfully.
                     remainingItems = 0;
