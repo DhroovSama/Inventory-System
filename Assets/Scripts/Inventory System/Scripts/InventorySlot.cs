@@ -45,7 +45,7 @@ namespace Inventory.sys
         public InventorySlot(ItemData id, int q)
         {
             itemData = id;
-            itemButton = InventoryPanelManager.Instance.CreateInventoryButton(itemData);
+            itemButton = InventoryPanelManager.Instance.CreateInventoryButton(itemData, this);
             Quantity = q;          
         }
 

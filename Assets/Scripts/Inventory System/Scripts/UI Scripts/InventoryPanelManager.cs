@@ -19,6 +19,12 @@ namespace Inventory.sys
         private GameObject itemContainer;
 
         [SerializeField]
+        private Button dropButton;
+
+        [SerializeField]
+        private InventorySystem inventorySystem;
+
+        [SerializeField]
         private List<ItemData> allItems;
 
         // Maps item buttons to their respective item types.
@@ -133,13 +139,13 @@ namespace Inventory.sys
         /// <param name="itemData">The data for the item to create a button for.</param>
         /// <returns>Returns the <see cref="ItemButtonSettings"/> for the created button.</returns>
         #endregion
-        public ItemButtonSettings CreateInventoryButton(ItemData itemData)
+        public ItemButtonSettings CreateInventoryButton(ItemData itemData, InventorySlot slot)
         {
             GameObject itemButton = Instantiate(itemButtonPrefab, itemContainer.transform); // Create a button.
             ItemButtonSettings itemButtonSettings = itemButton.GetComponent<ItemButtonSettings>();
             itemButtonSettings.Init(itemData, 1); // Initialize the button with item data.
             inventoryItemMap.Add(itemButton, itemData.itemType); // Map the button to its item type.
-            itemButton.GetComponent<Button>().onClick.AddListener(() => ShowItem(itemData.itemID)); // Add a click listener to show the item preview.
+            itemButton.GetComponent<Button>().onClick.AddListener(() => ShowItem(itemData.itemID, slot)); // Add a click listener to show the item preview.
 
             if((itemData.itemType != activeItemTypeTab))
             {
@@ -152,22 +158,45 @@ namespace Inventory.sys
 
         #region XML Documentation
         /// <summary>
-        /// Filters displayed inventory items based on their type.
+        /// Filters and updates the visibility of inventory items based on their type.
         /// </summary>
-        /// <param name="type">The type of items to display.</param>
+        /// <param name="type">The <see cref="ItemType"/> of items to display in the inventory panel.</param>
+        /// <remarks>
+        /// This method iterates through all inventory buttons and sets their visibility based on whether their type matches the specified type.
+        /// It also cleans up entries in the inventory map for buttons that are destroyed or no longer valid.
+        /// </remarks>
         #endregion
         public void FilterItemsByType(ItemType type)
         {
             activeItemTypeTab = type;
+
+            // Create a temporary list to hold keys of destroyed objects
+            List<GameObject> destroyedKeys = new List<GameObject>();
 
             foreach (var kvp in inventoryItemMap)
             {
                 GameObject itemButton = kvp.Key;
                 ItemType itemType = kvp.Value;
 
+                // Check if the GameObject is null or destroyed
+                if (itemButton == null)
+                {
+                    destroyedKeys.Add(itemButton); // Add destroyed objects to the list
+                    continue;
+                }
+
+                // Set the button's active state based on the filter
                 itemButton.gameObject.SetActive(itemType == type);
             }
+
+            // Remove destroyed keys from the dictionary
+            foreach (var key in destroyedKeys)
+            {
+                inventoryItemMap.Remove(key);
+            }
         }
+
+
 
         #region XML Documentation
         /// <summary>
@@ -176,8 +205,11 @@ namespace Inventory.sys
         /// </summary>
         /// <param name="itemID">The ID of the item to display.</param>
         #endregion
-        public void ShowItem(int itemID)
+        public void ShowItem(int itemID, InventorySlot slot)
         {
+            dropButton.onClick.RemoveAllListeners();
+            dropButton.onClick.AddListener(() => inventorySystem.RemoveItemFromSLot(slot, 1));
+
             // Deactivate all item previews.
             foreach (var obj in previewItemObjects.Values)
             {
