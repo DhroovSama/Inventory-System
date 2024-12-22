@@ -22,7 +22,7 @@ public class Gun : MonoBehaviour
 
     [SerializeField]
     private ItemData gunItemDataSO;  
-
+     
     [SerializeField, Tooltip("The gun GameObject to be enabled or disabled")]
     private GameObject gunGameObject;  
 

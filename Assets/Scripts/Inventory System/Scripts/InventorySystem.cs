@@ -197,6 +197,12 @@ namespace Inventory.sys
                 {
                     slot.ClearSlot();
                     slots.Remove(slot);
+
+                    // Deactivate all item previews.
+                    foreach (var obj in InventoryPanelManager.Instance.previewItemObjects.Values)
+                    {
+                        obj.SetActive(false);
+                    }
                 }
 
                 onInventoryChanged?.Invoke();

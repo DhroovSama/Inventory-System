@@ -18,8 +18,13 @@ public class Shoot : MonoBehaviour
     private ItemData bulletItemDataSO, gunItemDataSO;  
 
     [Header("Inventory Reference")]
-    [SerializeField] private InventorySystem inventorySystem; 
+    [SerializeField] private InventorySystem inventorySystem;
 
+    // Reference to the TextUpdater script
+    [SerializeField]
+    private SetUIText textUpdater;
+
+    // Called on UnityEvent onGunShoot in Gun Script
     public void ShootBullet()
     {
         // Check if player has both bullets and the gun in inventory
@@ -37,12 +42,16 @@ public class Shoot : MonoBehaviour
             }
             else
             {
+                textUpdater.onTextUpdate?.Invoke("No Bullets In Inventory");
                 Debug.Log("Not enough Bullets");
             }
         }
-        else
+        else if(inventorySystem.HasItem(gunItemDataSO) && !inventorySystem.HasItem(bulletItemDataSO))
         {
-            Debug.Log("Not enough Bullets");
+            textUpdater.onTextUpdate?.Invoke("No Bullets in Inventory, Look Around!");
+        }
+        else if (!inventorySystem.HasItem(gunItemDataSO) && !inventorySystem.HasItem(bulletItemDataSO))
+        {
             return;
         }
     }
