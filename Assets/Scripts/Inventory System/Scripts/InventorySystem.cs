@@ -263,6 +263,10 @@ namespace Inventory.sys
             return false;  // If the item is not found in any slot, return false
         }
 
+        public List<InventorySlot> GetAllSlots()
+        {
+            return slots;
+        }
 
         #region XML Documentation
         /// <summary>

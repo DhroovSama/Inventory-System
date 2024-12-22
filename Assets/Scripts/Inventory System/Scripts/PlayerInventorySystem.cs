@@ -65,7 +65,7 @@ namespace Inventory.sys
 
         #region XML Documentation
         /// <summary>
-        /// Picks up an item and adds it to the inventory if there is space.
+        /// Picks up an item and adds it to the inventory if there's space and it's not a duplicate weapon.
         /// </summary>
         /// <param name="itemData">The item to pick up.</param>
         /// <param name="quantity">The number of items to pick up.</param>
@@ -73,12 +73,29 @@ namespace Inventory.sys
         #endregion
         public int PickupItem(ItemData itemData, int quantity)
         {
-            // Add the item to the inventory if theres space or its stackable.
+            // Check if the item is a weapon
+            if (itemData.itemType == ItemType.Weapon)
+            {
+                // Check if the same weapon (itemID) already exists in the inventory
+                foreach (var slot in inventorySystem.GetAllSlots())
+                {
+                    if (slot.itemData != null &&
+                        slot.itemData.itemType == ItemType.Weapon &&
+                        slot.itemData.itemID == itemData.itemID)
+                    {
+                        Debug.LogWarning("This weapon is already in the inventory!");
+                        return quantity; // Return the full quantity as none can be picked up
+                    }
+                }
+            }
+
+            // Add the item to the inventory if there's space or it's stackable
             if (!inventorySystem.IsFull() || itemData.isStackable)
             {
                 return inventorySystem.AddItem(itemData, quantity);
             }
-            // Return the quantity that couldn't be picked up.
+
+            // Return the quantity that couldn't be picked up
             return quantity;
         }
 
