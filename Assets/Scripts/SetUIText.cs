@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SetUIText : MonoBehaviour
@@ -12,20 +13,42 @@ public class SetUIText : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI uiText;
 
+    [SerializeField]
+    private RawImage tutorialImage;
+
+    [SerializeField]
+    private InputActionReference tutorialOpenAction;
+
     // Duration for how long the text stays visible
     [SerializeField]
-    private float textDisplayDuration = 3f;
+    private float textDisplayDuration = 3.5f;
 
     private void OnEnable()
     {
+        tutorialOpenAction.action.Enable();
+
         // Subscribe to the event
         onTextUpdate += UpdateUIText;
     }
 
     private void OnDisable()
     {
+        tutorialOpenAction.action.Disable();
+
         // Unsubscribe from the event
         onTextUpdate -= UpdateUIText;
+    }
+
+    private void Update()
+    {
+        bool isPressed = tutorialOpenAction.action.ReadValue<float>() > 0;
+
+        tutorialImage.gameObject.SetActive(isPressed);
+    }
+
+    private void Start()
+    {
+        UpdateUIText("Click Tab to open/close Tutorial");
     }
 
     // Method to update the UI Text with the passed string
