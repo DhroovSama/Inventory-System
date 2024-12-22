@@ -35,15 +35,17 @@ namespace Inventory.sys
         private void Start()
         {
             InventoryPanelManager.Instance.SetPanelVisibility(false);   
+
+            inventorySystem.playerInventorySystem = this;
         }
 
         private void Update()
         {
-            // Check if the drop action E is pressed (temporary)
-            if (dropAction.action.triggered)
-            {
-                DropItem(itemToDrop, 1);
-            }
+            //// Check if the drop action E is pressed (temporary)
+            //if (dropAction.action.triggered)
+            //{
+            //    DropItem(itemToDrop, 1);
+            //}
 
             if (inventoryOpenAction.action.triggered)
             {
@@ -59,17 +61,6 @@ namespace Inventory.sys
         public void OpenCloseInventory()
         {
             InventoryPanelManager.Instance.TogglePanelVisibility();
-
-            //if (InventoryPanelManager.Instance.gameObject.activeSelf)
-            //{
-            //    Cursor.lockState = CursorLockMode.None;
-            //    Cursor.visible = true;
-            //}
-            //else
-            //{
-            //    Cursor.lockState = CursorLockMode.Locked;
-            //    Cursor.visible = false;
-            //}
         }
 
         #region XML Documentation
@@ -145,7 +136,7 @@ namespace Inventory.sys
         /// </summary>
         /// <returns>A vector representing the drop position.</returns> 
         #endregion
-        private Vector3 GetDropPosition()
+        public Vector3 GetDropPosition()
         {
             Vector3 playerPosition = transform.position; // Player's current position.
             Vector3 forwardDirection = transform.forward; // Player's forward-facing direction.

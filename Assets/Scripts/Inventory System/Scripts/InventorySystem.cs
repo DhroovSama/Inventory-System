@@ -13,6 +13,8 @@ namespace Inventory.sys
         [Tooltip("The maximum number of slots allowed in the inventory.")]
         public int maxSlots = 20;
 
+        public PlayerInventorySystem playerInventorySystem;
+
         #region XML Documentation
         /// <summary>
         /// Attempts to add a certain quantity of an item to the inventory.
@@ -171,11 +173,14 @@ namespace Inventory.sys
             {
                 slot.Quantity -= quantity;
 
-                if(slot.Quantity == 0)
+                DropItem(slot.itemData, quantity);
+
+                if (slot.Quantity == 0)
                 {
                     slot.ClearSlot();
                     slots.Remove(slot);
                 }
+                
                 return 0;
 
             }
@@ -183,11 +188,39 @@ namespace Inventory.sys
             {
                 int remainingQuantity = quantity - slot.Quantity;
 
+                DropItem(slot.itemData, quantity);
+
                 slot.ClearSlot();
                 slots.Remove(slot);
 
                 return remainingQuantity;
             }
+        }
+
+        public void DropItem(ItemData itemData, int numberDropped)
+        {
+            // If any items were dropped, instantiate the item's prefab in the game world.
+            if (numberDropped > 0)
+            {
+                if (itemData.groupedPrefab)
+                {
+                    // Instantiate a single prefab with the total quantity for grouped items.
+                    Instantiate(itemData.prefab, playerInventorySystem.GetDropPosition(), Quaternion.identity)
+                        .GetComponent<ItemPickup>().quantity = numberDropped;
+                }
+                else
+                {
+                    // Drop items individually if they are not grouped
+                    Vector3 location = playerInventorySystem.GetDropPosition();
+
+                    for (int i = 0; i < numberDropped; i++)
+                    {
+                        // Instantiate each item 
+                        Instantiate(itemData.prefab, playerInventorySystem.GetDropPosition(), Quaternion.identity);
+                    }
+                }
+            }
+
         }
 
         #region XML Documentation
