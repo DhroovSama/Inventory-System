@@ -14915,6 +14915,7 @@ GameObject:
   - component: {fileID: 1010510568}
   - component: {fileID: 1010510567}
   - component: {fileID: 1010510566}
+  - component: {fileID: 1010510569}
   m_Layer: 0
   m_Name: Anchor Point
   m_TagString: Untagged
@@ -15013,6 +15014,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010510564}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1010510569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010510564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f5008fa765d16458a94a7c1b6ead07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 85
 --- !u!1001 &1010642497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24449,6 +24463,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: be3a526fdbab25d4fbc1bc54bd9ef9a8, type: 2}
   - {fileID: 11400000, guid: cb9d88fab2fdb3d458e1ea43e3aa5054, type: 2}
   - {fileID: 11400000, guid: 319f1d9553deb8540ac99d327514e69c, type: 2}
+  isUiPanelVisible: 0
 --- !u!225 &1756046595
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -38,6 +38,8 @@ namespace Inventory.sys
 
         private ItemType activeItemTypeTab;
 
+        public bool isUiPanelVisible;
+
 
         //Singleton Pattern
         public static InventoryPanelManager Instance { get; private set; }
@@ -104,6 +106,8 @@ namespace Inventory.sys
 
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+
+                isUiPanelVisible = false;
             }
             else
             {
@@ -113,6 +117,8 @@ namespace Inventory.sys
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+
+                isUiPanelVisible = true;
             }
         }
 

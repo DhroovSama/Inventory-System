@@ -34,7 +34,7 @@ namespace Inventory.sys
 
         private void Start()
         {
-            InventoryPanelManager.Instance.SetPanelVisibility(false);   
+            InventoryPanelManager.Instance.SetPanelVisibility(false);
 
             inventorySystem.playerInventorySystem = this;
         }

@@ -27,32 +27,35 @@ public class Shoot : MonoBehaviour
     // Called on UnityEvent onGunShoot in Gun Script
     public void ShootBullet()
     {
-        // Check if player has both bullets and the gun in inventory
-        if (inventorySystem.HasItem(bulletItemDataSO) && inventorySystem.HasItem(gunItemDataSO))
+        if (!InventoryPanelManager.Instance.isUiPanelVisible)
         {
-            // Remove one bullet from inventory
-            int bulletsToRemove = 1;
-
-            int remainingBullets = inventorySystem.RemoveItem(bulletItemDataSO, bulletsToRemove);
-
-            // If there are no remaining bullets, instantiate and shoot the bullet
-            if (remainingBullets == 0)
+            // Check if player has both bullets and the gun in inventory
+            if (inventorySystem.HasItem(bulletItemDataSO) && inventorySystem.HasItem(gunItemDataSO))
             {
-                InstantiateBullet();
+                // Remove one bullet from inventory
+                int bulletsToRemove = 1;
+
+                int remainingBullets = inventorySystem.RemoveItem(bulletItemDataSO, bulletsToRemove);
+
+                // If there are no remaining bullets, instantiate and shoot the bullet
+                if (remainingBullets == 0)
+                {
+                    InstantiateBullet();
+                }
+                else
+                {
+                    textUpdater.onTextUpdate?.Invoke("No Bullets In Inventory");
+                    Debug.Log("Not enough Bullets");
+                }
             }
-            else
+            else if (inventorySystem.HasItem(gunItemDataSO) && !inventorySystem.HasItem(bulletItemDataSO))
             {
-                textUpdater.onTextUpdate?.Invoke("No Bullets In Inventory");
-                Debug.Log("Not enough Bullets");
+                textUpdater.onTextUpdate?.Invoke("No Bullets in Inventory, Look Around!");
             }
-        }
-        else if(inventorySystem.HasItem(gunItemDataSO) && !inventorySystem.HasItem(bulletItemDataSO))
-        {
-            textUpdater.onTextUpdate?.Invoke("No Bullets in Inventory, Look Around!");
-        }
-        else if (!inventorySystem.HasItem(gunItemDataSO) && !inventorySystem.HasItem(bulletItemDataSO))
-        {
-            return;
+            else if (!inventorySystem.HasItem(gunItemDataSO) && !inventorySystem.HasItem(bulletItemDataSO))
+            {
+                return;
+            }
         }
     }
 
