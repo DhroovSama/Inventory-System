@@ -164,6 +164,8 @@ namespace Inventory.sys
             {
                 GameObject itemButton = kvp.Key;
                 ItemType itemType = kvp.Value;
+
+                itemButton.gameObject.SetActive(itemType == type);
             }
         }
 
