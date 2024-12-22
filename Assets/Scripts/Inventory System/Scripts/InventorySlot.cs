@@ -73,7 +73,7 @@ namespace Inventory.sys
 
             if(itemButton != null)
             {
-                Object.Destroy(itemButton.gameObject);
+                InventoryPanelManager.Instance.DestroyInventoryButton(itemButton.gameObject);
             }
         }
 

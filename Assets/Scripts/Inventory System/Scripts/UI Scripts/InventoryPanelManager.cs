@@ -21,6 +21,9 @@ namespace Inventory.sys
         [SerializeField]
         private Button dropButton;
 
+        //[SerializeField]
+        //private TMPro.TMP_InputField numberToDrop;
+
         [SerializeField]
         private InventorySystem inventorySystem;
 
@@ -156,6 +159,12 @@ namespace Inventory.sys
             return itemButtonSettings;
         }
 
+        public void DestroyInventoryButton(GameObject inventoryButton)
+        {
+            inventoryItemMap.Remove(inventoryButton);
+            Destroy(inventoryButton);
+        }
+
         #region XML Documentation
         /// <summary>
         /// Filters and updates the visibility of inventory items based on their type.
@@ -170,29 +179,13 @@ namespace Inventory.sys
         {
             activeItemTypeTab = type;
 
-            // Create a temporary list to hold keys of destroyed objects
-            List<GameObject> destroyedKeys = new List<GameObject>();
-
             foreach (var kvp in inventoryItemMap)
             {
                 GameObject itemButton = kvp.Key;
                 ItemType itemType = kvp.Value;
 
-                // Check if the GameObject is null or destroyed
-                if (itemButton == null)
-                {
-                    destroyedKeys.Add(itemButton); // Add destroyed objects to the list
-                    continue;
-                }
-
                 // Set the button's active state based on the filter
                 itemButton.gameObject.SetActive(itemType == type);
-            }
-
-            // Remove destroyed keys from the dictionary
-            foreach (var key in destroyedKeys)
-            {
-                inventoryItemMap.Remove(key);
             }
         }
 
